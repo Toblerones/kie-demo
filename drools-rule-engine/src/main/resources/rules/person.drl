@@ -1,0 +1,22 @@
+package rules
+
+import cn.tobs.drools.model.Person
+import cn.tobs.drools.fact.RuleProcessedResult
+
+rule "Rule 1. Age Check - Age should less than 65"
+    when
+        person : Person(age != null, age < 65)
+        ruleProcessedResult : RuleProcessedResult();
+    then
+        ruleProcessedResult.setPass(true);
+		System.out.println("Rule 1 pass.");
+end
+
+rule "Rule 2. Income Check - Income should over 1000"
+    when
+        person : Person(income != null, income > 1000)
+        ruleProcessedResult : RuleProcessedResult();
+    then
+        ruleProcessedResult.setPass(true);
+		System.out.println("Rule 2 pass.");
+end
