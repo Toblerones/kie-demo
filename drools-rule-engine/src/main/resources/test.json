@@ -1,0 +1,4 @@
+{
+  "ruleKey": "aaa",
+  "rule": "package rules\n\nimport cn.tobs.drools.model.Person\nimport cn.tobs.drools.fact.RuleProcessedResult\n\nrule \"Age Income Check - Age should less than 65\"\n    when\n        person : Person(age < 65,income > 1000)\n        ruleProcessedResult : RuleProcessedResult();\n    then\n        ruleProcessedResult.setPass(true);\n\t\tSystem.out.println(\"Rule pass.\");\nend"
+}

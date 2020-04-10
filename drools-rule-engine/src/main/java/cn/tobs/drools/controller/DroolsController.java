@@ -2,6 +2,7 @@ package cn.tobs.drools.controller;
 
 import cn.tobs.drools.fact.RuleProcessedResult;
 import cn.tobs.drools.model.Person;
+import cn.tobs.drools.model.Rule;
 import cn.tobs.drools.service.DroolsRulesServiceImpl;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class DroolsController {
     @RequestMapping("/engine/run-rules")
     public String runRules(@RequestBody Person person){
 
-        System.out.println(person.toString());
+        System.out.println("Incoming message = [" + person.toString() + "]");
         KieSession kieSession = rulesService.kieContainer.newKieSession();
 
         RuleProcessedResult result = new RuleProcessedResult();
@@ -41,8 +42,9 @@ public class DroolsController {
         return result.toString();
     }
 
-    @RequestMapping("/engine/run-rules")
-    public void updateRules(@RequestBody Person person){
-
+    @RequestMapping("/engine/update-rules")
+    public void updateRules(@RequestBody Rule rule){
+        System.out.println("Incoming message = [" + rule.toString() + "]");
+        rulesService.updateRule(rule);
     }
 }
