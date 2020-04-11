@@ -3,7 +3,7 @@ package rules
 import cn.tobs.drools.model.Person
 import cn.tobs.drools.fact.RuleProcessedResult
 
-rule "Age Income Check - Age should less than 65"
+rule "Age Income Check - Age<65&income>1000"
     when
         person : Person(age < 65,income > 1000)
         ruleProcessedResult : RuleProcessedResult();

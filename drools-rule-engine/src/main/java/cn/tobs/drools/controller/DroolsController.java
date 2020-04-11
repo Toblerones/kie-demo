@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @RequestMapping("/drools")
 @RestController
 public class DroolsController {
@@ -43,8 +45,13 @@ public class DroolsController {
     }
 
     @RequestMapping("/engine/update-rules")
-    public void updateRules(@RequestBody Rule rule){
+    public void updateRules(@RequestBody Rule rule) throws IOException {
         System.out.println("Incoming message = [" + rule.toString() + "]");
         rulesService.updateRule(rule);
+    }
+
+    @RequestMapping("/engine/rules")
+    public void checkRules() {
+        rulesService.checkRules();
     }
 }
