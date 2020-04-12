@@ -14,16 +14,13 @@ import org.kie.api.builder.Message;
 import org.kie.api.definition.KiePackage;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.kie.internal.io.ResourceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
-import sun.lwawt.macosx.CSystemTray;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -53,39 +50,21 @@ public class DroolsRulesServiceImpl {
     }
 
     public void updateRule(Rule rule) throws IOException {
-        Collection<KiePackage> packages = kieBase.getKiePackages();
-        int nRules=0;
-        for( KiePackage pack: packages ){
-            nRules += pack.getRules().size();
+
+
+        System.out.println("Loading Rule from database by key[" + rule.getRuleKey() + "]....");
+        DreRule dreRule = dreRuleRepository.findByKey(rule.getRuleKey());
+        if (dreRule == null) {
+            System.out.println("Cannot find key[" + rule.getRuleKey() + "]. It's new Rule.");
+            dreRule = new DreRule();
         }
-        System.out.println("Before process number of rules : " + nRules);
+        dreRule.setContent(rule.getRule());
+        dreRule.setKey(rule.getRuleKey());
+        dreRule.setCreateTime(String.valueOf(System.currentTimeMillis()));
+        dreRuleRepository.save(dreRule);
+        System.out.println("Finished update.");
 
-        long startTime = System.currentTimeMillis();
-        KieServices ks = KieServices.Factory.get();
-        KieRepository kr = ks.getRepository();
-        KieFileSystem kfs = ks.newKieFileSystem();
-
-        String drl=rule.getRule();
-        kfs.write("src/main/resources/rules/" + rule.getRuleKey() + ".drl", drl);
-
-        KieBuilder kb = ks.newKieBuilder(kfs);
-
-        kb.buildAll();
-        if (kb.getResults().hasMessages(Message.Level.ERROR)) {
-            throw new RuntimeException("Build Errors:\n" + kb.getResults().toString());
-        }
-        long endTime = System.currentTimeMillis();
-        System.out.println("Time to build rules : " + (endTime - startTime)  + " ms" );
-        startTime = System.currentTimeMillis();
-        this.kieContainer = ks.newKieContainer(kr.getDefaultReleaseId());
-        endTime = System.currentTimeMillis();
-        System.out.println("Time to load container: " + (endTime - startTime)  + " ms" );
-
-        packages = kieBase.getKiePackages();
-        for( KiePackage pack: packages ){
-            nRules += pack.getRules().size();
-        }
-        System.out.println("After process, number of rules : " + nRules);
+        reloadRulesFromDb();
     }
 
     public List<Rule> checkRules(){

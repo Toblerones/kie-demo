@@ -36,18 +36,18 @@ public class DroolsController {
         }
     }
 
-    @RequestMapping("/engine/update-rules")
+    @RequestMapping(value = "/engine/rule", method = RequestMethod.POST)
     public void updateRules(@RequestBody Rule rule) throws IOException {
         System.out.println("Incoming message = [" + rule.toString() + "]");
         rulesService.updateRule(rule);
     }
 
-    @RequestMapping("/engine/rules")
+    @RequestMapping(value = "/engine/rules", method = RequestMethod.GET)
     public ResponseEntity<List<Rule>> checkRules() {
         return new ResponseEntity<>(rulesService.checkRules(), HttpStatus.OK);
     }
 
-    @RequestMapping("/engine/rules")
+    @RequestMapping(value = "/engine/rule", method = RequestMethod.GET)
     public ResponseEntity<Rule> checkRule(@RequestParam String key){
         System.out.println("Incoming message [key]= [" + key + "]");
         Rule rule = rulesService.checkRuleByKey(key);
