@@ -49,7 +49,7 @@ public class DroolsRulesServiceImpl {
         return result.isPass();
     }
 
-    public void updateRule(Rule rule) throws IOException {
+    public void updateRule(Rule rule) {
 
 
         System.out.println("Loading Rule from database by key[" + rule.getRuleKey() + "]....");
@@ -143,7 +143,5 @@ public class DroolsRulesServiceImpl {
         }
         System.out.println("After process, number of rules : " + nRules);
     }
-
-
 
 }

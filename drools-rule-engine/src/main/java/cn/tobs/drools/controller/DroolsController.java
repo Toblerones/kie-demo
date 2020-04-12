@@ -23,23 +23,16 @@ public class DroolsController {
 
     @ResponseBody
     @RequestMapping("/engine/run-rules")
-    public String runRules(@RequestBody Person person){
-
+    public ResponseEntity<Boolean> runRules(@RequestBody Person person){
         System.out.println("Incoming message = [" + person.toString() + "]");
-
-        if(rulesService.runRule(person)){
-            System.out.println("Pass");
-            return "Pass";
-        } else {
-            System.out.println("Fail");
-            return "Fail";
-        }
+        return new ResponseEntity<>(rulesService.runRule(person), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/engine/rule", method = RequestMethod.POST)
-    public void updateRules(@RequestBody Rule rule) throws IOException {
+    public ResponseEntity<List<Rule>> updateRules(@RequestBody Rule rule) throws IOException {
         System.out.println("Incoming message = [" + rule.toString() + "]");
         rulesService.updateRule(rule);
+        return new ResponseEntity<>(rulesService.checkRules(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/engine/rules", method = RequestMethod.GET)
@@ -56,9 +49,9 @@ public class DroolsController {
     }
 
     @RequestMapping("/engine/reload-db-rules")
-    public void reloadDbRules() {
+    public ResponseEntity reloadDbRules() {
         rulesService.reloadRulesFromDb();
+        return ResponseEntity.ok().build();
     }
-
 
 }
