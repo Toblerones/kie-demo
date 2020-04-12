@@ -4,15 +4,15 @@ import cn.tobs.drools.fact.RuleProcessedResult;
 import cn.tobs.drools.model.Person;
 import cn.tobs.drools.model.Rule;
 import cn.tobs.drools.service.DroolsRulesServiceImpl;
+import org.jpmml.model.annotations.Required;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RequestMapping("/drools")
 @RestController
@@ -26,22 +26,14 @@ public class DroolsController {
     public String runRules(@RequestBody Person person){
 
         System.out.println("Incoming message = [" + person.toString() + "]");
-        KieSession kieSession = rulesService.kieContainer.newKieSession();
 
-        RuleProcessedResult result = new RuleProcessedResult();
-        kieSession.insert(person);
-        kieSession.insert(result);
-        int ruleFiredCount = kieSession.fireAllRules();
-        kieSession.destroy();
-        System.out.println(ruleFiredCount + " rules are fired");
-
-        if(result.isPass()){
+        if(rulesService.runRule(person)){
             System.out.println("Pass");
+            return "Pass";
         } else {
             System.out.println("Fail");
+            return "Fail";
         }
-
-        return result.toString();
     }
 
     @RequestMapping("/engine/update-rules")
@@ -51,7 +43,22 @@ public class DroolsController {
     }
 
     @RequestMapping("/engine/rules")
-    public void checkRules() {
-        rulesService.checkRules();
+    public ResponseEntity<List<Rule>> checkRules() {
+        return new ResponseEntity<>(rulesService.checkRules(), HttpStatus.OK);
     }
+
+    @RequestMapping("/engine/rules")
+    public ResponseEntity<Rule> checkRule(@RequestParam String key){
+        System.out.println("Incoming message [key]= [" + key + "]");
+        Rule rule = rulesService.checkRuleByKey(key);
+
+        return new ResponseEntity<>(rule, HttpStatus.OK);
+    }
+
+    @RequestMapping("/engine/reload-db-rules")
+    public void reloadDbRules() {
+        rulesService.reloadRulesFromDb();
+    }
+
+
 }
