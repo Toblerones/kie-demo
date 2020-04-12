@@ -17,10 +17,7 @@ import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,7 +25,6 @@ import java.util.List;
 public class DroolsRulesServiceImpl {
 
     public static KieContainer kieContainer;
-    private static final String RULES_PATH = "rules/";
 
     @Autowired
     KieBase kieBase;

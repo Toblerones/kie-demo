@@ -1,11 +1,8 @@
 package cn.tobs.drools.controller;
 
-import cn.tobs.drools.fact.RuleProcessedResult;
 import cn.tobs.drools.model.Person;
 import cn.tobs.drools.model.Rule;
 import cn.tobs.drools.service.DroolsRulesServiceImpl;
-import org.jpmml.model.annotations.Required;
-import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
