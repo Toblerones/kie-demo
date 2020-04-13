@@ -10,7 +10,7 @@ import { addRule, fireRules, getRules } from "./requests";
 
 const rule = yup.object({
     ruleKey: yup.string().required("Rule Key is required"),
-    rule: yup.string().required("Rule DRE is required"),
+    rule: yup.string().required("Rule DRL is required"),
 })
 
 function RuleForm({
@@ -60,11 +60,11 @@ function RuleForm({
             </Form.Row>
             <Form.Row>
               <Form.Group as={Col} md="12" controlId="rule">
-                <Form.Label>Rule DRE Content</Form.Label>
+                <Form.Label>Rule DRL Content</Form.Label>
                 <Form.Control
                   type="text"
                   name="rule"
-                  placeholder="Rule DRE"
+                  placeholder="Rule DRL"
                   value={values.rule || ""}
                   onChange={handleChange}
                   as="textarea" rows="15"

@@ -103,7 +103,7 @@ function HomePage({ rulesStore }) {
         <thead>
           <tr>
             <th>Rule Key</th>
-            <th>Rule DRE Content</th>
+            <th>Rule DRL Content</th>
           </tr>
         </thead>
         <tbody>
