@@ -33,7 +33,8 @@ function HomePage({ rulesStore }) {
   };
   const getData = async () => {
     const response = await getRules();
-    rulesStore.setRules(response.data);
+    console.log(response);
+    rulesStore.setRules(response);
     setInitialized(true);
   };
   useEffect(() => {

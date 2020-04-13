@@ -4,6 +4,9 @@ const URI_ADD_RULES = "/engine/rules";
 const URI_FIRE_RULES = "/engine/run-rules";
 export const getRules = async () => {
   const res = await fetch(`${APIURL}${URI_GET_RULES}`);
+  // console.log(res);
+  // console.log(res.clone().json());
+  // console.log(res.clone().json().data);
   return res.json();
 };
 export const addRule = async data => {
