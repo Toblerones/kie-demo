@@ -1,5 +1,6 @@
 package cn.tobs.drools.controller;
 
+import cn.tobs.drools.fact.RuleProcessedResult;
 import cn.tobs.drools.model.Person;
 import cn.tobs.drools.model.Rule;
 import cn.tobs.drools.service.DroolsRulesServiceImpl;
@@ -20,7 +21,7 @@ public class DroolsController {
 
     @ResponseBody
     @RequestMapping("/engine/run-rules")
-    public ResponseEntity<Boolean> runRules(@RequestBody Person person){
+    public ResponseEntity<RuleProcessedResult> runRules(@RequestBody Person person){
         System.out.println("Incoming message = [" + person.toString() + "]");
         return new ResponseEntity<>(rulesService.runRule(person), HttpStatus.OK);
     }

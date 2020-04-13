@@ -32,7 +32,7 @@ public class DroolsRulesServiceImpl {
     @Autowired
     private DreRuleRepository dreRuleRepository;
 
-    public boolean runRule(Person person) {
+    public RuleProcessedResult runRule(Person person) {
         KieSession kieSession = kieContainer.newKieSession();
 
         RuleProcessedResult result = new RuleProcessedResult();
@@ -42,7 +42,7 @@ public class DroolsRulesServiceImpl {
         kieSession.destroy();
         System.out.println(ruleFiredCount + " rules are fired");
 
-        return result.isPass();
+        return result;
     }
 
     public void updateRule(Rule rule) {
