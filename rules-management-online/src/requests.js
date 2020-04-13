@@ -1,16 +1,13 @@
 const APIURL = "http://localhost:8080/drools";
 const URI_GET_RULES = "/engine/rules";
-const URI_ADD_RULES = "/engine/rules";
+const URI_ADD_RULE = "/engine/rule";
 const URI_FIRE_RULES = "/engine/run-rules";
 export const getRules = async () => {
   const res = await fetch(`${APIURL}${URI_GET_RULES}`);
-  // console.log(res);
-  // console.log(res.clone().json());
-  // console.log(res.clone().json().data);
   return res.json();
 };
 export const addRule = async data => {
-  const response = await fetch(`${APIURL}${URI_ADD_RULES}`, {
+  const response = await fetch(`${APIURL}${URI_ADD_RULE}`, {
     method: "POST",
     mode: "cors",
     cache: "no-cache",

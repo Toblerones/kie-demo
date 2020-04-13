@@ -22,14 +22,11 @@ function RuleForm({
   rulesStore,
 }) {
   const handleSubmit = async evt => {
-    const isValid = await rule.validate(evt);
-    if (!isValid) {
-      return;
-    }
+
     await addRule(evt);
     
     const response = await getRules();
-    rulesStore.setRules(response.data);
+    rulesStore.setRules(response);
     onSave();
   };
   return (
@@ -58,11 +55,7 @@ function RuleForm({
                   placeholder="Rule Key"
                   value={values.ruleKey || ""}
                   onChange={handleChange}
-                  isInvalid={touched.ruleKey && errors.ruleKey}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.ruleKey}
-                </Form.Control.Feedback>
+                />  
               </Form.Group>
             </Form.Row>
             <Form.Row>
@@ -74,11 +67,8 @@ function RuleForm({
                   placeholder="Rule DRE"
                   value={values.rule || ""}
                   onChange={handleChange}
-                  isInvalid={touched.rule && errors.rule}
+                  as="textarea" rows="15"
                 />
-                <Form.Control.Feedback type="invalid">
-                  {errors.rule}
-                </Form.Control.Feedback>
               </Form.Group>
             </Form.Row>
             

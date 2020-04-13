@@ -25,10 +25,10 @@ function FireForm({
   const handleSubmit = async evt => {
 
     console.log(evt)
-    await fireRules(evt);
-    
+    const response = await fireRules(evt);
+    alert("rule result : "  + response.pass);
     // const response = await fireRules();
-    onSave();
+    // onSave();
   };
   return (
     <div className="form">
