@@ -72,6 +72,7 @@ public class DroolsRulesServiceImpl {
             rule.setRule(dreRule.getContent());
             rules.add(rule);
         }
+        reloadRulesFromDb();
         return rules;
     }
 
