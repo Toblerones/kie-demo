@@ -8,13 +8,6 @@ import * as yup from "yup";
 import PropTypes from "prop-types";
 import { addRule, fireRules, getRules } from "./requests";
 
-const person = yup.object({
-    dataNumber: yup.string(),
-    customerName: yup.string(),
-    age: yup.string().required("Age is required"),
-    income: yup.string().required("Income is required"),
-})
-
 const rule = yup.object({
     ruleKey: yup.string().required("Rule Key is required"),
     rule: yup.string().required("Rule DRE is required"),
@@ -79,7 +72,7 @@ function RuleForm({
                   type="text"
                   name="rule"
                   placeholder="Rule DRE"
-                  value={values.lastName || ""}
+                  value={values.rule || ""}
                   onChange={handleChange}
                   isInvalid={touched.rule && errors.rule}
                 />

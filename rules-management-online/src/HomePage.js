@@ -5,41 +5,50 @@ import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import RuleForm from "./RuleForm";
+import FireForm from "./FireForm";
 import "./HomePage.css";
 import { getRules, fireRules } from "./requests";
 import { observer } from "mobx-react";
 function HomePage({ rulesStore }) {
   const [openAddModal, setOpenAddModal] = useState(false);
-  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openFireRulesModal, setOpenFireRulesModal] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const [selectedRule, setSelectedRule] = useState({});
+
   const openModal = () => {
     setOpenAddModal(true);
   };
   const closeModal = () => {
     setOpenAddModal(false);
-    setOpenEditModal(false);
-    getData();
+    getRulesData();
   };
   const cancelAddModal = () => {
     setOpenAddModal(false);
   };
-  const editRule = rule => {
-    setSelectedRule(rule);
-    setOpenEditModal(true);
+
+  const openModal2 = () => {
+    setOpenFireRulesModal(true);
   };
-  const cancelEditModal = () => {
-    setOpenEditModal(false);
+  const closeModal2= () => {
+    setOpenFireRulesModal(false);
   };
-  const getData = async () => {
+  const cancelFireRuleModal = () => {
+    setOpenFireRulesModal(false);
+  };
+
+  const getRulesData = async () => {
     const response = await getRules();
     console.log(response);
     rulesStore.setRules(response);
     setInitialized(true);
   };
+  const postFireRules = async () => {
+    const response = await fireRules();
+    console.log(response);
+  };
   useEffect(() => {
     if (!initialized) {
-      getData();
+        getRulesData();
     }
   });
   return (
@@ -58,22 +67,25 @@ function HomePage({ rulesStore }) {
           />
         </Modal.Body>
       </Modal>
-<Modal show={openEditModal} onHide={closeModal}>
+      
+      <Modal show={openFireRulesModal} onHide={closeModal2}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Rule</Modal.Title>
+          <Modal.Title>Fire Rules</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <RuleForm
-            edit={true}
-            onSave={closeModal.bind(this)}
-            rule={selectedRule}
-            onCancelEdit={cancelEditModal}
-            rulesStore={rulesStore}
+          <FireForm
+            edit={false}
+            onSave={closeModal2.bind(this)}
+            onCancelAdd={cancelFireRuleModal}
           />
         </Modal.Body>
       </Modal>
+      
       <ButtonToolbar onClick={openModal}>
         <Button variant="outline-primary">Add Rule</Button>
+      </ButtonToolbar>
+      <ButtonToolbar onClick={openModal2}>
+        <Button variant="outline-primary">Fire Rule</Button>
       </ButtonToolbar>
       <br />
       <Table striped bordered hover>
@@ -88,14 +100,7 @@ function HomePage({ rulesStore }) {
             <tr key={c.id}>
               <td>{c.ruleKey}</td>
               <td>{c.rule}</td>
-              <td>
-                <Button
-                  variant="outline-primary"
-                  onClick={editRule.bind(this, c)}
-                >
-                  Edit
-                </Button>
-              </td>
+
             </tr>
           ))}
         </tbody>
