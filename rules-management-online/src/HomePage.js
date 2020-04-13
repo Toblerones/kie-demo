@@ -41,6 +41,12 @@ function HomePage({ rulesStore }) {
     console.log(response);
     rulesStore.setRules(response);
     setInitialized(true);
+
+    rulesStore.rules.map(c => (
+        console.log(c.id),
+        console.log(c.ruleKey),
+        console.log(c.rule)
+      ));
   };
   const postFireRules = async () => {
     const response = await fireRules();
@@ -54,6 +60,7 @@ function HomePage({ rulesStore }) {
   return (
     <div className="home-page">
       <h1>Rules</h1>
+
       <Modal show={openAddModal} onHide={closeModal}>
         <Modal.Header closeButton>
           <Modal.Title>Add Rule</Modal.Title>
@@ -67,7 +74,6 @@ function HomePage({ rulesStore }) {
           />
         </Modal.Body>
       </Modal>
-      
       <Modal show={openFireRulesModal} onHide={closeModal2}>
         <Modal.Header closeButton>
           <Modal.Title>Fire Rules</Modal.Title>
@@ -80,13 +86,18 @@ function HomePage({ rulesStore }) {
           />
         </Modal.Body>
       </Modal>
-      
+      <tr>
+      <th>
       <ButtonToolbar onClick={openModal}>
         <Button variant="outline-primary">Add Rule</Button>
       </ButtonToolbar>
+      </th>
+      <th>
       <ButtonToolbar onClick={openModal2}>
         <Button variant="outline-primary">Fire Rule</Button>
       </ButtonToolbar>
+      </th>
+      </tr>
       <br />
       <Table striped bordered hover>
         <thead>
