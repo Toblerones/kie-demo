@@ -11,10 +11,10 @@ import { getRules, fireRules } from "./requests";
 import { observer } from "mobx-react";
 function HomePage({ rulesStore }) {
   const [openAddModal, setOpenAddModal] = useState(false);
-  const [openFireRulesModal, setOpenFireRulesModal] = useState(false);
+  const [openFireRulesBankStatementModal, setOpenFireRulesBankStatementModal] = useState(false);
+  const [openFireRulesPersonModal, setOpenFireRulesPersonModal] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const [selectedRule, setSelectedRule] = useState({});
-
   const openModal = () => {
     setOpenAddModal(true);
   };
@@ -26,16 +26,25 @@ function HomePage({ rulesStore }) {
     setOpenAddModal(false);
   };
 
-  const openModal2 = () => {
-    setOpenFireRulesModal(true);
+  const openModalPerson = () => {
+    setOpenFireRulesPersonModal(true);
   };
   const closeModal2= () => {
-    setOpenFireRulesModal(false);
+    setOpenFireRulesPersonModal(false);
   };
-  const cancelFireRuleModal = () => {
-    setOpenFireRulesModal(false);
+  const cancelFireRulesPersonModal = () => {
+    setOpenFireRulesPersonModal(false);
   };
 
+  const openModalBankStatement = () => {
+    setOpenFireRulesBankStatementModal(true);
+  };
+  const closeModal3= () => {
+    setOpenFireRulesBankStatementModal(false);
+  };
+  const cancelFireRulesBankStatementModal = () => {
+    setOpenFireRulesBankStatementModal(false);
+  };
   const getRulesData = async () => {
     const response = await getRules();
     console.log(response);
@@ -74,15 +83,29 @@ function HomePage({ rulesStore }) {
           />
         </Modal.Body>
       </Modal>
-      <Modal show={openFireRulesModal} onHide={closeModal2}>
+      <Modal show={openFireRulesPersonModal} onHide={closeModal2}>
         <Modal.Header closeButton>
-          <Modal.Title>Fire Rules</Modal.Title>
+          <Modal.Title>Fire Rules - Person</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <FireForm
             edit={false}
             onSave={closeModal2.bind(this)}
-            onCancelAdd={cancelFireRuleModal}
+            onCancelAdd={cancelFireRulesPersonModal}
+            ruleDataModel = "person"
+          />
+        </Modal.Body>
+      </Modal>
+      <Modal show={openFireRulesBankStatementModal} onHide={closeModal3}>
+        <Modal.Header closeButton>
+          <Modal.Title>Fire Rules - Bank Statement</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <FireForm
+            edit={false}
+            onSave={closeModal3.bind(this)}
+            onCancelAdd={cancelFireRulesBankStatementModal}
+            ruleDataModel = "bankstatement"
           />
         </Modal.Body>
       </Modal>
@@ -92,9 +115,16 @@ function HomePage({ rulesStore }) {
         <Button variant="outline-primary">Add Rule</Button>
       </ButtonToolbar>
       </th>
+      </tr>
+      <tr>
       <th>
-      <ButtonToolbar onClick={openModal2}>
-        <Button variant="outline-primary">Fire Rule</Button>
+      <ButtonToolbar onClick={openModalPerson}>
+        <Button variant="outline-primary">Fire Rule - Person</Button>
+      </ButtonToolbar>
+      </th>
+      <th>
+      <ButtonToolbar onClick={openModalBankStatement}>
+        <Button variant="outline-primary">Fire Rule - Bank Statement</Button>
       </ButtonToolbar>
       </th>
       </tr>

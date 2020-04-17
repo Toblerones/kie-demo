@@ -19,7 +19,7 @@ function RuleForm({
   rule,
   onCancelAdd,
   onCancelEdit,
-  rulesStore,
+  rulesStore  
 }) {
   const handleSubmit = async evt => {
 
