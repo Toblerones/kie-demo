@@ -47,7 +47,7 @@ function FireForm({
           errors,
         }) => (
           <Form noValidate onSubmit={handleSubmit}>
-            <Form.Row>
+            {/* <Form.Row>
               <Form.Group as={Col} md="12" controlId="dataNumber">
                 <Form.Label>Data Number</Form.Label>
                 <Form.Control
@@ -73,7 +73,7 @@ function FireForm({
                   onChange={handleChange}
                 />
               </Form.Group>
-            </Form.Row>
+            </Form.Row> */}
             <Form.Row>
               <Form.Group as={Col} md="12" controlId="age">
                 <Form.Label>Age</Form.Label>

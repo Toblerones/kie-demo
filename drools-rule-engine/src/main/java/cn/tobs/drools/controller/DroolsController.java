@@ -1,6 +1,7 @@
 package cn.tobs.drools.controller;
 
 import cn.tobs.drools.fact.RuleProcessedResult;
+import cn.tobs.drools.model.BankStatement;
 import cn.tobs.drools.model.Person;
 import cn.tobs.drools.model.Rule;
 import cn.tobs.drools.service.DroolsRulesServiceImpl;
@@ -21,10 +22,17 @@ public class DroolsController {
     DroolsRulesServiceImpl rulesService;
 
     @ResponseBody
-    @RequestMapping("/engine/run-rules")
+    @RequestMapping("/engine/run-rules/person")
     public ResponseEntity<RuleProcessedResult> runRules(@RequestBody Person person){
         System.out.println("Incoming message = [" + person.toString() + "]");
         return new ResponseEntity<>(rulesService.runRule(person), HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @RequestMapping("/engine/run-rules/bankstatement")
+    public ResponseEntity<RuleProcessedResult> runRules(@RequestBody BankStatement bankStatement){
+        System.out.println("Incoming message = [" + bankStatement.toString() + "]");
+        return new ResponseEntity<>(rulesService.runRule(bankStatement), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/engine/rule", method = RequestMethod.POST)

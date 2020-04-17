@@ -32,11 +32,11 @@ public class DroolsRulesServiceImpl {
     @Autowired
     private DreRuleRepository dreRuleRepository;
 
-    public RuleProcessedResult runRule(Person person) {
+    public <T> RuleProcessedResult runRule(T object) {
         KieSession kieSession = kieContainer.newKieSession();
 
         RuleProcessedResult result = new RuleProcessedResult();
-        kieSession.insert(person);
+        kieSession.insert(object);
         kieSession.insert(result);
         int ruleFiredCount = kieSession.fireAllRules();
         kieSession.destroy();
